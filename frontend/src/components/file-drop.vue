@@ -12,8 +12,8 @@
 </style>
 
 <script>
-import FileDropable from '@/mixins/file-dropable'
+import FileDropable from '@/mixins/file-dropable';
 export default {
   mixins: [FileDropable]
-}
+};
 </script>

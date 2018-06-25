@@ -1,7 +1,7 @@
 export default {
   "mongodb": {
     "hostname": "localhost",
-    "database": "localapp"
+    "database": "vidya"
   },
   "express": {
     "hostname": "localhost",

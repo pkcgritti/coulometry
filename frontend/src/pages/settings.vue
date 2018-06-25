@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import CTable from '@/components/c-table'
-import FileDrop from '@/components/file-drop'
+import CTable from '@/components/c-table';
+import FileDrop from '@/components/file-drop';
 export default {
   components: { CTable, FileDrop },
   data: () => ({
@@ -23,5 +23,5 @@ export default {
       { sample: 2, potential: 1, current: 2 }
     ]
   })
-}
+};
 </script>
