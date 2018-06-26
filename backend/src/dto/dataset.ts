@@ -20,6 +20,8 @@ class Dataset {
   @aprop(Number)
   results?: Number[]
   @aprop(Number)
+  ignore?: Number[]
+  @aprop(Number)
   voltage: Number[]
 }
 

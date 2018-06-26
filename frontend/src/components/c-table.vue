@@ -3,6 +3,7 @@
     light
     :headers="headers"
     :items="items"
+    hide-actions
   )
     span(slot="no-data") Não há dados
     template(slot="items" slot-scope="props")

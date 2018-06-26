@@ -1,6 +1,7 @@
 <template lang="pug">
   v-layout(column)
-    file-table-dialog(:openned="dialogVisible" :resolver="resolver")
+    create-dialog(ref="createDialog")
+    update-dialog(ref="updateDialog")
     v-flex
       v-alert(v-model="alert" :type="alertType" dismissible transition="scale-transition") {{ alertMessage }}
     v-flex
@@ -19,10 +20,10 @@
           tr
             th.pa-0.ma-0(style="width: 2px;")
               form(ref="inputForm")
-                input(v-show="false" type="file" ref="fileInput" :accept="{ type: String, default: '*' }" @change="sendFile")
+                input(v-show="false" type="file" ref="fileInput" :accept="{ type: String, default: '*' }")
               v-tooltip(bottom)
                 span Enviar um arquivo csv
-                v-btn.pa-0.secondary(icon slot="activator" @click="triggerFileInput")
+                v-btn.pa-0.secondary(icon slot="activator" @click="importFile")
                   v-icon cloud_upload
             th.text-sm-left(v-for="header in props.headers"
               :key="header.text"
@@ -56,28 +57,17 @@
 
 <script>
 import moment from 'moment';
-import FileTableDialog from './file-table-dialog';
-
-function parseFile (file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsText(file, 'UTF-8');
-    reader.onload = function (evt) {
-      resolve(reader.result);
-    };
-    reader.onerror = reject;
-  });
-}
+import CreateDialog from './create-dialog';
+import UpdateDialog from './update-dialog';
 
 export default {
-  components: { FileTableDialog },
+  components: { CreateDialog, UpdateDialog },
   props: ['items'],
   data: () => ({
     alert: false,
     alertType: 'success',
     alertMessage: 'Sucesso',
-    dialogVisible: false,
-    resolver: null,
+    timeout: null,
     pagination: {
       sortBy: 'uploaded',
       descending: true
@@ -92,6 +82,42 @@ export default {
   methods: {
     triggerFileInput () {
       this.$refs.fileInput.click();
+    },
+    isValidName (name) {
+      const item = this.items.find(item => item.name === name);
+      const uniqueName = item === undefined || item === null;
+      const notNull = name !== undefined && name !== null && name !== '';
+      if (!uniqueName) this.alertDelayed(`Já existe um conjunto de dados nomeado "${name}", escolha outro nome.`, 'error', 10000);
+      if (!notNull) this.alertDelayed('Você deve especificar um nome para o conjunto de dados', 'error', 10000);
+      return (uniqueName && notNull);
+    },
+    importFile () {
+      this.$refs.createDialog.open()
+        .then(data => {
+          if (data.choice) {
+            const obj = {
+              name: data.payload.name,
+              voltage: data.payload.potential,
+              current: data.payload.current * 0.001,
+              material: data.payload.material || undefined,
+              samplingInterval: data.payload.samplingInterval
+            };
+            if (obj.voltage.length === 0) {
+              return this.alertDelayed('Nenhum dado fornecido para importação', 'error', 10000);
+            }
+            if (this.isValidName(obj.name)) {
+              this.$axios.post('/dataset', obj)
+                .then(res => {
+                  console.log(res.data);
+                  this.alertDelayed(`Conjunto de dados "${obj.name}" enviado com sucesso`, 'success', 10000);
+                  this.$emit('update');
+                }).catch(err => {
+                  console.log(err.response);
+                  this.alertDelayed(`Não foi possível enviar o arquivo ao servidor`, 'error', 10000);
+                });
+            }
+          }
+        });
     },
     remove (obj) {
       if (window.confirm(`Tem certeza que deseja remover o arquivo "${obj.name}"?`)) {
@@ -109,53 +135,21 @@ export default {
       this.$router.push({ name: 'Analise de dados', params: { id: obj._id } });
     },
     edit (obj) {
-      this.openDialog()
-        .then(awnser => {
-          console.log(awnser);
-          this.dialogVisible = false;
+      this.$refs.updateDialog.open()
+        .then(data => {
+          console.log(data);
         });
     },
     alertDelayed (message, type, delay) {
       this.alertMessage = message;
       this.alertType = type;
       this.alert = true;
-      setTimeout(() => { this.alert = false; }, delay);
-      this.$refs.inputForm.reset();
-    },
-    sendFile (e) {
-      const name = e.target.files[0].name;
-      if (/\.csv$/.test(name)) {
-        parseFile(e.target.files[0])
-          .then(result => {
-            const formatted = result.replace(/,/g, ' ').split(/\s+/);
-            const voltage = formatted.slice(0, formatted.length - 1)
-              .map(str => Number.parseFloat(str));
-            this.openDialog()
-              .then(awnser => {
-                this.dialogVisible = false;
-                if (awnser) {
-                  this.$axios.post('/dataset', {
-                    name,
-                    voltage
-                  }).then(res => {
-                    console.log(res.data);
-                    this.alertDelayed(`Arquivo "${e.target.files[0].name}" enviado com sucesso`, 'success', 10000);
-                    this.$emit('update');
-                  }).catch(() => {
-                    this.alertDelayed(`Não foi possível enviar o arquivo ao servidor`, 'error', 10000);
-                  });
-                } else {
-                  this.$refs.inputForm.reset();
-                }
-              });
-          })
-          .catch(err => {
-            console.err('Error de leitura', err.name, err.message);
-            this.alertDelayed(`Erro na leitura do arquivo "${e.target.files[0].name}"`, 'error', 10000);
-          });
-      } else {
-        this.alertDelayed(`O arquivo deve conter a extensão .csv`, 'error', 10000);
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+        this.timeout = null;
       }
+      this.timeout = setTimeout(() => { this.alert = false; }, delay);
+      this.$refs.inputForm.reset();
     },
     openDialog () {
       return new Promise(resolve => {
