@@ -1,0 +1,23 @@
+[
+  {
+    "path": "/",
+    "component": "default.vue",
+    "children": [
+      {
+        "path": "",
+        "component": "default/index.vue",
+        "name": "Default/Index"
+      },
+      {
+        "path": "analysis",
+        "component": "default/analysis.vue",
+        "name": "Default/Analysis"
+      },
+      {
+        "path": "settings",
+        "component": "default/settings.vue",
+        "name": "Default/Settings"
+      }
+    ]
+  }
+]

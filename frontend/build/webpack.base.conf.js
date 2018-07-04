@@ -31,6 +31,9 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  resolveLoader: {
+    modules: ['node_modules', path.resolve(__dirname, '../loaders')]
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -45,6 +48,10 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
+      },
+      {
+        test: path.resolve(__dirname, '../src/router', 'router.config.json'),
+        loader: 'router-loader'
       },
       {
         test: /\.js$/,

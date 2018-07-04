@@ -132,7 +132,7 @@ export default {
       }
     },
     open (obj) {
-      this.$router.push({ name: 'Analise de dados', params: { id: obj._id } });
+      this.$router.push({ name: 'Default/Analysis', params: { id: obj._id } });
     },
     edit (obj) {
       this.$refs.updateDialog.open()
