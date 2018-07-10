@@ -6,10 +6,21 @@ O backend utiliza node.js e foi escrito em typescript, utilizando mongodb como b
 de dados. Para instalar o backend no linux, siga os seguintes passos:
 
 ```bash
-npm i -g ts-node
-npm i -g typescript
+# Instalação do nodemon (para executar o servidor com hot-reload)
 npm i -g nodemon
+# Instalação do ts-node (utilizado pelo nodemon para iniciar o server typescript com hot-reload)
+npm i -g ts-node
+# Instalação do compilador typescript, utilizado para produção
+npm i -g typescript
+
+# Navegue até o diretório do projeto
 cd ~/path-to-this-repo/backend/
+# e instale as dependências
 npm i
+
+# Para rodar o servidor em modo dev, utilize:
 nodemon
+
+# Para gerar o código de produção, utilize:
+tsc
 ```
