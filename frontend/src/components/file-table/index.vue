@@ -25,18 +25,22 @@
                 span Enviar um arquivo csv
                 v-btn.pa-0.secondary(icon slot="activator" @click="importFile")
                   v-icon cloud_upload
-            th.text-sm-left(v-for="header in props.headers"
-              :key="header.text"
-              :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
-              @click="changeSort(header.value)") {{ header.text }}
+            template(v-for="header in props.headers")
+              th.text-xs-left.hidden-xs-only(
+                v-if="header.text === 'Adicionado em' || header.text === 'Material'"
+                :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+                @click="changeSort(header.value)"
+              ) {{ header.text }}
+              th.text-xs-left(v-else
+                :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+                @click="changeSort(header.value)") {{ header.text }}
             th
         template(slot="items" slot-scope="props")
           td
             v-icon(color="green") insert_drive_file
           td {{ props.item.name }}
-          td {{ props.item.material }}
-          td {{ props.item.processed ? 'Sim' : 'Não' }}
-          td {{ formatDate(props.item.uploaded) }}
+          td.hidden-xs-only {{ props.item.material }}
+          td.hidden-xs-only {{ formatDate(props.item.uploaded) }}
           td.ma-0.pa-0.button-center(style="width: 150px")
             v-btn.ma-1.pa-0(icon color="red" @click="remove(props.item)")
               v-icon delete
@@ -70,12 +74,12 @@ export default {
     timeout: null,
     pagination: {
       sortBy: 'uploaded',
-      descending: true
+      descending: true,
+      rowsPerPage: -1
     },
     headers: [
       { text: 'Nome do arquivo', align: 'left', sortable: true, value: 'name' },
       { text: 'Material', align: 'left', sortable: true, value: 'material', width: 1 },
-      { text: 'Processado', align: 'left', sortable: true, value: 'processed', width: 1 },
       { text: 'Adicionado em', align: 'left', sortable: true, value: 'uploaded', width: 1 }
     ]
   }),
@@ -163,6 +167,7 @@ export default {
       return d.format('Y/MM/DD') + ' às ' + d.format('h:mm:ss a');
     },
     changeSort (column) {
+      console.log(this.pagination);
       if (this.pagination.sortBy === column) {
         this.pagination.descending = !this.pagination.descending;
       } else {

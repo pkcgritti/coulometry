@@ -19,17 +19,41 @@ def optimize_gain (data, time, center, amplitude):
   epsilon = 1e-4
   cost = compute_cost(data, time, center, amplitude, gain)
 
-  for step in range(maxsteps):
-    print('Step %d with cost %.4f' % (step + 1, cost))
+  #for step in range(maxsteps):
+  for _ in range(maxsteps):
+    # print('Step %d with cost %.4f' % (step + 1, cost))
     delta = (compute_cost(data, time, center, amplitude, gain + epsilon) - cost) / epsilon
     memory = omega * memory + delta
     gain -= alpha * memory
     cost = compute_cost(data, time, center, amplitude, gain)
   
-  print('Final step with cost %.4f' % (cost))
+  # print('Final step with cost %.4f' % (cost))
   return gain
 
+def optimize_gain_naive(data, time, center, amplitude):
+  maxsteps = 10
+  divisions = 50
+  min_gain = -20000
+  max_gain = 20000
+  gain = 1000
+
+  for step in range(maxsteps):
+    gain_vector = np.linspace(min_gain, max_gain, divisions)
+    cost_vector = [compute_cost(data, time, center, amplitude, g) for g in gain_vector]
+    argmin = np.argmin(cost_vector)
+    step_size = gain_vector[1] - gain_vector[0]
+    gain = gain_vector[argmin]
+    cost = cost_vector[argmin]
+    min_gain = gain - 4 * step_size
+    max_gain = gain + 4 * step_size
+    print('Iteration %d with cost %.8e and gain %.8f and stepsize %.4e' % (step+1, cost, gain, step_size))
+  
+  return gain
+
+
 def compute_cost (data, time, center, amplitude, gain):
+  if gain <= 0:
+    return np.Inf
   projection = amplitude * np.exp( -((time - center) ** 2) / gain )
   error = data - projection
   return np.sum(error ** 2)
@@ -47,7 +71,7 @@ def estimate_best_gauss_like (dataset, reference, wsize=1):
   data_sample = dataset.data[min_idx-wsize:min_idx+wsize+1]
   time_sample = dataset.time[min_idx-wsize:min_idx+wsize+1]
 
-  gain = optimize_gain(data_sample, time_sample, center, amplitude)
+  gain = optimize_gain_naive(data_sample, time_sample, center, amplitude)
   print('Got optimal gain at %.4f' % gain)
 
   ref_idx = np.argwhere(reference.time == center)[0][0]

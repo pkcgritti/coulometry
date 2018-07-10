@@ -8,7 +8,7 @@ from core.operations import filter_dataset, convolute_dataset, derivate_dataset,
 from core.estimators import estimate_best_gauss_like
 import core.constants as CT
 
-DATASET_ID = ['5b42cfc1b1020409d3dea489', '5b42cf5fb1020409d3dea488', '5b436e23d595ec0a611c8caf'][-1]
+DATASET_ID = ['5b43d07bd595ec0a611c8cba', '5b42cf5fb1020409d3dea488', '5b436e23d595ec0a611c8caf'][0]
 dataset_dict = getDataset(DATASET_ID)
 
 s1 = dictToDataset(dataset_dict)
@@ -21,12 +21,12 @@ s3 = filter_dataset(s2, CT.DEFAULT_FORDER)
 s4 = derivate_dataset(s3)
 s5 = convolute_dataset(s4, CT.DEFAULT_WORDER)
 s6 = propagate(s5, points)
-for i in range(5):
+for i in range(3):
   next_point = estimate_best_gauss_like(s6, s1, CT.DEFAULT_OFFSET)
-  plt.figure()
-  plt.plot(s4.time, s4.data * 10)
-  s6.plot()
-  plt.plot(s6.time, next_point['amplitude'] * np.exp( - ((s6.time - next_point['center']) ** 2) / next_point['gain'] ))
+  # plt.figure()
+  # plt.plot(s4.time, s4.data * 10)
+  # s6.plot()
+  # plt.plot(s6.time, next_point['amplitude'] * np.exp( - ((s6.time - next_point['center']) ** 2) / next_point['gain'] ))
   points.append(next_point)
   s6 = propagate(s5, points)
 duration = time.time() - start
