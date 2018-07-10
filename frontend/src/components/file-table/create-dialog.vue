@@ -42,7 +42,8 @@ function initialState () {
     name: '',
     current: 23,
     samplingInterval: 0.5,
-    material: ''
+    material: '',
+    startTime: 0
   };
 }
 
@@ -62,34 +63,48 @@ export default {
     parseSoftwareFile () {
       const splited = this.payload.text.split('\n').slice(1);
       const label = splited[0].replace('Label: E vs t ', '').replace(/\(|\)/g, '');
-      const potential = Array(splited.length - 1);
-      const time = Array(splited.length - 1);
+      let potential = Array(splited.length - 1);
+      let time = Array(splited.length - 1);
       splited.slice(1).forEach((d, i) => {
         const s = d.split(' ');
         time[i] = Number.parseFloat(s[0]);
         potential[i] = Number.parseFloat(s[1]);
       });
+      time = time.filter(v => !isNaN(v));
+      potential = potential.filter(v => !isNaN(v));
+      const startTime = time[0];
       const samplingInterval = Math.round(mean(diff(time)) * 100) / 100;
       return {
         samplingInterval,
         potential,
+        startTime,
         label,
         size: potential.length
       };
     },
     parseXlmFile () {
-      const potential = this.payload.text
+      const asArray = this.payload.text
         .replace(/,/g, '.')
-        .split('\n')
-        .map(s => Number.parseFloat(s))
-        .filter(v => !isNaN(v));
+        .split('\n');
+      let potential = Array(asArray.length - 1);
+      let time = Array(asArray.length - 1);
+      asArray.slice(1).forEach((d, i) => {
+        const s = d.split(/\s/);
+        time[i] = Number.parseFloat(s[0]);
+        potential[i] = Number.parseFloat(s[1]);
+      });
+      time = time.filter(v => !isNaN(v));
+      potential = potential.filter(v => !isNaN(v));
+      const samplingInterval = Math.round(mean(diff(time)) * 100) / 100;
+      const startTime = time[0];
       return {
-        potential
+        samplingInterval,
+        potential,
+        startTime
       };
     },
     onKeyPress (evt) {
       evt.preventDefault();
-      console.log(evt);
     },
     parse () {
       let parsed;
@@ -102,6 +117,7 @@ export default {
       if (parsed.label) this.payload.name = parsed.label;
       if (parsed.potential) this.payload.potential = parsed.potential;
       if (parsed.samplingInterval) this.payload.samplingInterval = parsed.samplingInterval;
+      if (parsed.startTime) this.payload.startTime = parsed.startTime;
     }
   }
 };

@@ -9,14 +9,14 @@
         "name": "Default/Index"
       },
       {
-        "path": "analysis",
-        "component": "default/analysis.vue",
-        "name": "Default/Analysis"
-      },
-      {
         "path": "settings",
         "component": "default/settings.vue",
         "name": "Default/Settings"
+      },
+      {
+        "path": "dataset/:id",
+        "component": "default/dataset/_id.vue",
+        "name": "Default/Dataset/_id"
       }
     ]
   }

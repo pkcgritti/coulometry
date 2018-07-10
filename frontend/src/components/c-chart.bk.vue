@@ -11,13 +11,11 @@ export default {
   }),
   methods: {
     createChart (time, potential, points) {
-      points.reverse();
       this.chart = new Chart(this.$el.getContext('2d'), {
         type: 'line',
         data: {
           labels: time,
           datasets: [
-            ...points,
             {
               label: 'Diferença de Potencial',
               data: potential,
@@ -26,12 +24,24 @@ export default {
               fill: false,
               lineTension: 0,
               pointRadius: 0,
-              pointHoverRadius: 0,
-              pointHoverBorderColor: 'black',
-              pointHoverBackgroundColor: 'black',
               borderWidth: 1,
               pointDotRadius: 0,
               pointStrokeColor: 'none'
+            },
+            {
+              label: 'Ponto de inflexão',
+              fill: false,
+              pointRadius: 5,
+              pointStyle: 'circle',
+              hitRadius: 8,
+              hitBackground: 'black',
+              hoverRadius: 10,
+              hoverBorderWidth: 0,
+              backgroundColor: 'rgba(0, 23, 200, 0.6)',
+              borderColor: 'none',
+              showLine: false,
+              lineWidth: 0,
+              data: points
             }
           ]
         },
@@ -52,16 +62,17 @@ export default {
           tooltips: {
             intersect: false,
             mode: 'x',
-            filter: (item) => {
-              return item.datasetIndex < this.dataset.points.length;
+            filter: function (item) {
+              return item.datasetIndex >= 1;
             },
             callbacks: {
               title: (tooltipItem) => {
                 const item = tooltipItem[0];
                 if (!item) return null;
-                const len = this.dataset.points.length;
-                const did = item.datasetIndex;
-                const timepoint = this.dataset.points[len - 1 - did].data[0].x;
+                let timepoint = (item.datasetIndex)
+                  ? this.dataset.points[item.index].x
+                  : item.xLabel;
+
                 return 'Tempo: ' + timepoint + ' segundos';
               }
             }
@@ -69,9 +80,9 @@ export default {
           scales: {
             xAxes: [{
               display: true,
-              // distribution: 'linear',
-              // beginAtZero: true,
-              // stepSize: 0.5,
+              distribution: 'linear',
+              beginAtZero: true,
+              stepSize: 0.5,
               scaleLabel: {
                 display: true,
                 labelString: 'Tempo (segundos)'
@@ -92,11 +103,8 @@ export default {
       const data = this.unrollData();
       if (this.chart) {
         this.chart.data.labels = data.time;
-        this.chart.data.datasets[this.chart.data.datasets.length - 1].data = data.potential;
-        this.chart.data.datasets.splice(0, this.chart.data.datasets.length - 1);
-        data.points.forEach(point => {
-          this.chart.data.datasets.unshift(point);
-        });
+        this.chart.data.datasets[0].data = data.potential;
+        this.chart.data.datasets[1].data = data.points;
         this.chart.update();
       } else {
         this.createChart(data.time, data.potential, data.points);

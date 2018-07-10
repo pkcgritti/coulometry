@@ -11,14 +11,16 @@ class Dataset {
   material?: Schema.Types.ObjectId
   @prop({ default: Date.now })
   uploaded?: Date
+  @prop({ default: 0.0 })
+  startTime?: Number
   @prop({ default: 0.1 })
   samplingInterval?: Number
   @prop({ default: 0.023 })
   current?: Number
   @prop({ default: {} })
   details?: Schema.Types.Mixed
-  @aprop(Number)
-  results?: Number[]
+  @aprop(Schema.Types.Mixed)
+  results?: Schema.Types.Mixed[]
   @aprop(Number)
   ignore?: Number[]
   @aprop(Number)

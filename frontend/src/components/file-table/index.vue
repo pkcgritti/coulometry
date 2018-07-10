@@ -100,7 +100,8 @@ export default {
               voltage: data.payload.potential,
               current: data.payload.current * 0.001,
               material: data.payload.material || undefined,
-              samplingInterval: data.payload.samplingInterval
+              samplingInterval: data.payload.samplingInterval,
+              startTime: Math.round(data.payload.startTime * 100) / 100
             };
             if (obj.voltage.length === 0) {
               return this.alertDelayed('Nenhum dado fornecido para importação', 'error', 10000);
@@ -132,7 +133,7 @@ export default {
       }
     },
     open (obj) {
-      this.$router.push({ name: 'Default/Analysis', params: { id: obj._id } });
+      this.$router.push({ name: 'Default/Dataset/_id', params: { id: obj._id } });
     },
     edit (obj) {
       this.$refs.updateDialog.open()

@@ -10,11 +10,3 @@ export class DatasetRepository extends MongooseRepository<Dataset, IDatasetDocum
     super(buildModel<IDatasetDocument>(conn, Dataset))
   }
 };
-// export class DatasetController {
-//   @get('/', req => [req.body.user])
-//   sendDataset () {
-//     return 'ae'
-//   }
-
-//   @get('/:id', req => [])
-// }

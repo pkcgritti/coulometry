@@ -7,6 +7,7 @@ import Vuetify from 'vuetify';
 import Axios from './plugins/rest';
 
 import 'vuetify/dist/vuetify.min.css';
+import './style/global.styl';
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
