@@ -24,3 +24,16 @@ nodemon
 # Para gerar o código de produção, utilize:
 tsc
 ```
+
+## Frontend
+
+Linguagem: Javascript (ECMA6) + pug(.html) + stylus(.css)
+Frameworks: Vue.js + Vuetify + webpack
+Documentação sob desenvolvimento.
+
+## Microserviço (Detecção de pontos de inflexão)
+
+Linguagem: Python
+Frameworks: Flask
+Dependências: Numpy, Flask, Urllib
+Documentação sob desenvolvimento.
