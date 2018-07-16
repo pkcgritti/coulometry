@@ -1,1 +1,0 @@
-{"version":3,"file":"material.js","sourceRoot":"","sources":["../../src/dto/material.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,uCAAyC;AACzC,qDAAiE;AAGjE,IAAM,QAAQ,GAAd;CAKC,CAAA;AAHC;IADC,eAAI,CAAC,EAAE,QAAQ,EAAE,IAAI,EAAE,CAAC;;sCACb;AAEZ;IADC,gBAAK,CAAC,iBAAM,CAAC,KAAK,CAAC,QAAQ,CAAC;;0CACd;AAJX,QAAQ;IADb,qBAAU,CAAC,WAAW,CAAC;GAClB,QAAQ,CAKb;AAEQ,4BAAQ"}
