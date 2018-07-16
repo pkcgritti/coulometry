@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/views/default.json"],"names":["module","exports","path"],"mappings":"qCAAAA,EAAAC,SAAkBC,KAAA","file":"static/js/7.6add4b54eea242b36a18.js","sourcesContent":["module.exports = {\"path\":\"/\"}\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/views/default.json\n// module id = VLrf\n// module chunks = 7"],"sourceRoot":""}
