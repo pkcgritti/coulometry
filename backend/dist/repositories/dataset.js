@@ -11,11 +11,4 @@ class DatasetRepository extends mongoose_2.default {
 }
 exports.DatasetRepository = DatasetRepository;
 ;
-// export class DatasetController {
-//   @get('/', req => [req.body.user])
-//   sendDataset () {
-//     return 'ae'
-//   }
-//   @get('/:id', req => [])
-// }
 //# sourceMappingURL=dataset.js.map
