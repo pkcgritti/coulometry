@@ -20,6 +20,7 @@ const app = express()
       .use(cors({
 	origin: true
       }))
+      .use(express.static('public'))
       .use(messager())
       .use('/dataset', Controllers.Dataset.buildRouter())
       .use('/material', Controllers.Material.buildRouter())
