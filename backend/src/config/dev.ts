@@ -5,6 +5,6 @@ export default {
   },
   express: {
     hostname: 'localhost',
-    port: 8045,
+    port: 8000,
   },
 };

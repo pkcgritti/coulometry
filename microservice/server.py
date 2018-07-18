@@ -39,4 +39,5 @@ def addPoint():
   
   return Response(dumps(data), status = status, mimetype='application/json')
 
-app.run('localhost', 8001, debug=True)
+if __name__ == '__main__':
+  app.run('localhost', 8001, debug=True)

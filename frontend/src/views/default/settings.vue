@@ -41,11 +41,20 @@
                           tr
                             td.header Densidade
                             td.value {{ element.density }} (g/cm³)
+                          tr
+                            td.header Pot. médio
+                            td.value {{ element.meanPotential }} (V)
+                          tr
+                            td.header N. elétrons (N)
+                            td.value {{ element.nEletrons }}
+                          tr
+                            td.header Iterativo
+                            td.value {{ element.iteractive ? 'Sim' : 'Não' }}
                     v-card-actions
                       v-spacer
-                      v-btn(small style="text-transform: none;" color="error" icon @click="")
+                      v-btn(small style="text-transform: none;" color="error" icon @click="removeElement(element)")
                         v-icon delete
-                      v-btn(small style="text-transform: none;" color="primary" icon @click="")
+                      v-btn(small style="text-transform: none;" color="primary" icon @click="updateElement(element)")
                         v-icon edit
         v-card-actions
           v-spacer
@@ -130,6 +139,7 @@ export default {
             response.payload.material = this.material._id;
             this.$axios.post('material/' + this.material._id + '/elements', response.payload)
               .then(data => {
+                this.getElements();
                 console.log(data);
               })
               .catch(error => {
@@ -137,6 +147,26 @@ export default {
               });
           }
         });
+    },
+    updateElement (element) {
+      this.$refs.createElementDialog.open(element)
+        .then(response => {
+          if (response.choice) {
+            this.$axios.put('material/' + this.material._id + '/element/' + element._id, response.payload)
+              .then(data => {
+                console.log(data);
+                this.getElements();
+              });
+          }
+        });
+    },
+    removeElement (element) {
+      if (window.confirm('Tem certeza que deseja remover o elemento ' + element.name + '?')) {
+        this.$axios.delete('material/' + this.material._id + '/element/' + element._id)
+          .then(() => {
+            this.getElements();
+          });
+      }
     },
     getElements () {
       this.elementsLoading = true;

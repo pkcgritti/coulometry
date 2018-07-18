@@ -4,13 +4,19 @@ import { collection, aprop, prop } from '../decorators/mongoose';
 @collection('Elements')
 class Element {
   @prop({ required: true })
-  name: string
+  public name: string;
   @prop({ required: true })
-  molarMass: number
+  public molarMass: number;
   @prop({ required: true })
-  density: number
+  public density: number;
   @prop({ required: true })
-  material: Schema.Types.ObjectId
+  public meanPotential: number;
+  @prop({ required: true })
+  public nEletrons: number;
+  @prop({ required: true })
+  public iteractive: boolean;
+  @prop({ required: true, ref: 'Materials' })
+  public material: Schema.Types.ObjectId;
 }
 
-export { Element }
+export { Element };

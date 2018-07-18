@@ -28,7 +28,6 @@ export class Controller {
     const keys = Reflect.getMetadataKeys(this) as any;
     if (keys.includes('controller:rules')) {
       const rules: IRule[] = Reflect.getMetadata('controller:rules', this);
-      console.log(rules);
       rules.forEach((rule) => {
         const handler = this[rule.handler].bind(this);
         const args = [...rule.middlewares, action(handler, rule.extractor)];

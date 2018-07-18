@@ -4,27 +4,29 @@ import { collection, aprop, prop } from '../decorators/mongoose';
 @collection('Datasets')
 class Dataset {
   @prop({ required: true })
-  name: string
+  public name: string;
   @prop({ default: false })
-  processed?: boolean
+  public processed?: boolean;
   @prop()
-  material?: Schema.Types.ObjectId
+  public material?: Schema.Types.ObjectId;
   @prop({ default: Date.now })
-  uploaded?: Date
+  public uploaded?: Date;
   @prop({ default: 0.0 })
-  startTime?: Number
+  public startTime?: number;
   @prop({ default: 0.1 })
-  samplingInterval?: Number
+  public samplingInterval?: number;
+  @prop({ default: 2.6 })
+  public area?: number;
   @prop({ default: 0.023 })
-  current?: Number
+  public current?: number;
   @prop({ default: {} })
-  details?: Schema.Types.Mixed
+  public details?: Schema.Types.Mixed;
   @aprop(Schema.Types.Mixed)
-  results?: Schema.Types.Mixed[]
+  public results?: Schema.Types.Mixed[];
   @aprop(Number)
-  ignore?: Number[]
+  public ignore?: number[];
   @aprop(Number)
-  voltage: Number[]
+  public voltage: number[];
 }
 
-export { Dataset }
+export { Dataset };

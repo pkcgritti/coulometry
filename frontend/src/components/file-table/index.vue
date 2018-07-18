@@ -167,7 +167,6 @@ export default {
       return d.format('Y/MM/DD') + ' às ' + d.format('h:mm:ss a');
     },
     changeSort (column) {
-      console.log(this.pagination);
       if (this.pagination.sortBy === column) {
         this.pagination.descending = !this.pagination.descending;
       } else {

@@ -4,9 +4,9 @@ import { collection, aprop, prop } from '../decorators/mongoose';
 @collection('Materials')
 class Material {
   @prop({ required: true })
-  name: string
+  public name: string;
   @aprop(Schema.Types.ObjectId)
-  elements: any[]
+  public elements: any[];
 }
 
-export { Material }
+export { Material };

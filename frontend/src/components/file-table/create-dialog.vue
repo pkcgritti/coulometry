@@ -2,8 +2,10 @@
   async-dialog(ref="dialog" :payload="payload" title="Importação de dados")
     v-flex(v-show="payload.potential.length === 0" xs12)
       v-text-field(v-model="payload.text" multi-line textarea light label="Copie o conteúdo do arquivo aqui (Ctrl + V)" @input="parse" @keypress.prevent="")
-    v-flex(xs12)
+    v-flex(xs6)
       v-text-field(v-model="payload.name" light clearable label="Nome do arquivo")
+    v-flex(xs6)
+      v-text-field(v-model="payload.area" light type="number" label="Área (cm²)")
     v-flex(xs6)
       v-text-field(v-model="payload.current" light type="number" label="Corrente (mA)")
     v-flex(xs6)
@@ -14,7 +16,7 @@
       v-select(
         light
         v-model="payload.material"
-        :items="['Cu', 'Alumínio', 'Ouro', 'Prata']"
+        :items="items"
         label="Material")
 </template>
 
@@ -41,6 +43,7 @@ function initialState () {
     potential: [],
     name: '',
     current: 23,
+    area: 2.6,
     samplingInterval: 0.5,
     material: '',
     startTime: 0
@@ -49,13 +52,22 @@ function initialState () {
 
 export default {
   data: () => ({
-    payload: initialState()
+    payload: initialState(),
+    items: []
   }),
   components: { AsyncDialog },
   methods: {
     open () {
       this.payload = initialState();
-      return this.$refs.dialog.open();
+      return this.$axios.get('material')
+        .then(response => {
+          console.log(response);
+          this.items = response.payload.map(material => ({
+            value: material._id,
+            text: material.name
+          }));
+          return this.$refs.dialog.open();
+        });
     },
     isSoftwareFile (text) {
       return /^Title: Title/.test(text);
@@ -72,7 +84,8 @@ export default {
       });
       time = time.filter(v => !isNaN(v));
       potential = potential.filter(v => !isNaN(v));
-      const startTime = time[0];
+      // const startTime = time[0];
+      const startTime = 0;
       const samplingInterval = Math.round(mean(diff(time)) * 100) / 100;
       return {
         samplingInterval,
@@ -96,7 +109,8 @@ export default {
       time = time.filter(v => !isNaN(v));
       potential = potential.filter(v => !isNaN(v));
       const samplingInterval = Math.round(mean(diff(time)) * 100) / 100;
-      const startTime = time[0];
+      // const startTime = time[0];
+      const startTime = 0;
       return {
         samplingInterval,
         potential,

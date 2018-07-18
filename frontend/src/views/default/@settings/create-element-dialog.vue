@@ -6,6 +6,12 @@
       v-text-field(v-model="payload.molarMass" light type="number" label="Massa molar (g/mol)")
     v-flex(xs12)
       v-text-field(v-model="payload.density" light type="number" label="Massa específica (g/cm³)")
+    v-flex(xs12)
+      v-text-field(v-model="payload.nEletrons" light type="number" label="Número de elétrons (N)")
+    v-flex(xs12)
+      v-text-field(v-model="payload.meanPotential" light type="number" label="Potencial médio")
+    v-flex(xs12)
+      v-checkbox(v-model="payload.iteractive" light label="Utiliza rotina iterativa")
 </template>
 
 <script>
@@ -15,7 +21,10 @@ function initialState () {
   return {
     name: '',
     molarMass: 0,
-    density: 0
+    density: 0,
+    nEletrons: 1,
+    meanPotential: 0,
+    iteractive: false
   };
 }
 
@@ -26,12 +35,19 @@ export default {
   }),
   components: { AsyncDialog },
   methods: {
-    open (name) {
-      this.title = (name && name !== '')
-        ? 'Editar elemento'
-        : 'Criar elemento';
+    open (element) {
       this.payload = initialState();
-      if (typeof name === 'string') this.payload.name = name;
+      if (typeof element === 'object') {
+        this.title = 'Editar elemento';
+        this.payload.name = element.name;
+        this.payload.molarMass = element.molarMass;
+        this.payload.density = element.density;
+        this.payload.nEletrons = element.nEletrons;
+        this.payload.meanPotential = element.meanPotential;
+        this.payload.iteractive = element.iteractive;
+      } else {
+        this.title = 'Criar elemento';
+      }
       return this.$refs.dialog.open();
     }
   }
