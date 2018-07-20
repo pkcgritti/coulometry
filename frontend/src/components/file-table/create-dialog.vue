@@ -10,6 +10,8 @@
       v-text-field(v-model="payload.current" light type="number" label="Corrente (mA)")
     v-flex(xs6)
       v-text-field(v-model="payload.samplingInterval" light type="number" step="0.5" label="Intervalo entre medições")
+    v-flex(xs12)
+      v-text-field(:value="payload.expositionTime" light type="number" label="Tempo de exposição em campo (dias)")
     v-flex(xs6)
       v-text-field(:value="payload.potential.length" light type="number" readonly label="Número de amostras")
     v-flex(xs6)
@@ -46,7 +48,8 @@ function initialState () {
     area: 2.6,
     samplingInterval: 0.5,
     material: '',
-    startTime: 0
+    startTime: 0,
+    expositionTime: 30
   };
 }
 

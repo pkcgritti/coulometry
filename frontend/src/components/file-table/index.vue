@@ -39,7 +39,7 @@
           td
             v-icon(color="green") insert_drive_file
           td {{ props.item.name }}
-          td.hidden-xs-only {{ props.item.material }}
+          td.hidden-xs-only {{ getMaterial(props.item.material) }}
           td.hidden-xs-only {{ formatDate(props.item.uploaded) }}
           td.ma-0.pa-0.button-center(style="width: 150px")
             v-btn.ma-1.pa-0(icon color="red" @click="remove(props.item)")
@@ -66,7 +66,7 @@ import UpdateDialog from './update-dialog';
 
 export default {
   components: { CreateDialog, UpdateDialog },
-  props: ['items'],
+  props: ['items', 'materials'],
   data: () => ({
     alert: false,
     alertType: 'success',
@@ -86,6 +86,12 @@ export default {
   methods: {
     triggerFileInput () {
       this.$refs.fileInput.click();
+    },
+    getMaterial (id) {
+      console.log(id);
+      console.log(this.materials);
+      const material = this.materials.find(mat => mat._id === id);
+      return (material && material.name) || 'Não definido';
     },
     isValidName (name) {
       const item = this.items.find(item => item.name === name);
