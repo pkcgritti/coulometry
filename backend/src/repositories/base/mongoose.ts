@@ -1,4 +1,4 @@
-import { Model, DocumentQuery, Document, Aggregate, Query, ModelUpdateOptions, Types } from 'mongoose';
+import { Model, DocumentQuery, Document, ModelUpdateOptions, Types } from 'mongoose';
 import { Writer, Reader } from './interfaces';
 import { autoBind } from '../../helpers/binding';
 
