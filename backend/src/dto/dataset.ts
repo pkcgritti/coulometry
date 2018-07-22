@@ -15,6 +15,8 @@ class Dataset {
   public startTime?: number;
   @prop({ default: 0.1 })
   public samplingInterval?: number;
+  @prop({ default: 45 })
+  public expositionTime?: number;
   @prop({ default: 2.6 })
   public area?: number;
   @prop({ default: 0.023 })

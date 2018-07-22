@@ -1,4 +1,4 @@
-import { GET, POST, DELETE } from '../decorators/router';
+import { GET, POST, DELETE, PUT } from '../decorators/router';
 import { Controller } from './base/controller';
 import Repositories from '../repositories';
 import axios from 'axios';
@@ -73,6 +73,14 @@ export class DatasetController extends Controller {
   @POST('/', req => [req.body])
   createDataset (dataset) {
     return Repositories.Dataset.createOne(dataset)
+  }
+
+  @PUT('/:id', req => [req.params.id, req.body])
+  updateDataset (did, dataset) {
+    if (!dataset) throw 400;
+    return Repositories.Dataset.updateOne({ _id: Types.ObjectId(did) }, {
+      $set: dataset
+    });
   }
 
   @DELETE('/:id', req => [req.params.id])

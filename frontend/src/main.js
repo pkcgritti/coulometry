@@ -5,6 +5,7 @@ import App from './App';
 import router from './router';
 import Vuetify from 'vuetify';
 import Axios from './plugins/rest';
+import InstallFilters from './filters';
 
 import 'vuetify/dist/vuetify.min.css';
 import './style/global.styl';
@@ -12,6 +13,7 @@ import './style/global.styl';
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(Axios);
+InstallFilters(Vue);
 
 /* eslint-disable no-new */
 new Vue({

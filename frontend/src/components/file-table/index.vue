@@ -88,8 +88,6 @@ export default {
       this.$refs.fileInput.click();
     },
     getMaterial (id) {
-      console.log(id);
-      console.log(this.materials);
       const material = this.materials.find(mat => mat._id === id);
       return (material && material.name) || 'Não definido';
     },
@@ -108,9 +106,11 @@ export default {
             const obj = {
               name: data.payload.name,
               voltage: data.payload.potential,
-              current: data.payload.current * 0.001,
+              current: data.payload.current,
               material: data.payload.material || undefined,
               samplingInterval: data.payload.samplingInterval,
+              expositionTime: data.payload.expositionTime,
+              area: data.payload.area,
               startTime: Math.round(data.payload.startTime * 100) / 100
             };
             if (obj.voltage.length === 0) {
@@ -119,7 +119,6 @@ export default {
             if (this.isValidName(obj.name)) {
               this.$axios.post('/dataset', obj)
                 .then(res => {
-                  console.log(res.data);
                   this.alertDelayed(`Conjunto de dados "${obj.name}" enviado com sucesso`, 'success', 10000);
                   this.$emit('update');
                 }).catch(err => {
@@ -146,9 +145,15 @@ export default {
       this.$router.push({ name: 'Default/Dataset/_id', params: { id: obj._id } });
     },
     edit (obj) {
-      this.$refs.updateDialog.open()
-        .then(data => {
-          console.log(data);
+      this.$refs.updateDialog.open(obj)
+        .then(response => {
+          if (response.choice) {
+            const dataset = response.payload;
+            this.$axios.put('dataset/' + obj._id, dataset)
+              .then(data => {
+                this.$emit('update');
+              });
+          }
         });
     },
     alertDelayed (message, type, delay) {

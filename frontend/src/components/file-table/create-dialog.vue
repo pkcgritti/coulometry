@@ -10,8 +10,6 @@
       v-text-field(v-model="payload.current" light type="number" label="Corrente (mA)")
     v-flex(xs6)
       v-text-field(v-model="payload.samplingInterval" light type="number" step="0.5" label="Intervalo entre medições")
-    v-flex(xs12)
-      v-text-field(:value="payload.expositionTime" light type="number" label="Tempo de exposição em campo (dias)")
     v-flex(xs6)
       v-text-field(:value="payload.potential.length" light type="number" readonly label="Número de amostras")
     v-flex(xs6)
@@ -20,6 +18,8 @@
         v-model="payload.material"
         :items="items"
         label="Material")
+    v-flex(xs12)
+      v-text-field(v-model="payload.expositionTime" light type="number" label="Tempo de exposição em campo (dias)")
 </template>
 
 <script>
@@ -64,7 +64,6 @@ export default {
       this.payload = initialState();
       return this.$axios.get('material')
         .then(response => {
-          console.log(response);
           this.items = response.payload.map(material => ({
             value: material._id,
             text: material.name
