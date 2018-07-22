@@ -9,7 +9,8 @@ yarn-error.log*
 /test/unit/coverage/
 /test/e2e/reports/
 selenium-debug.log
-*/__pycache__/
+microservice/__pycache__/
+microservice/*/__pycache__/
 
 # Editor directories and files
 .idea
