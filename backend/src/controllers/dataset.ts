@@ -26,7 +26,7 @@ export class DatasetController extends Controller {
   // Change to PUT
   @GET('/:id/addpoint', req => [req.params.id])
   addPoint (id) {
-    return axios.get('http://localhost:8001/add_point?id=' + id)
+    return axios.get('http://localhost:8092/add_point?id=' + id)
       .then(response => {
         return Repositories.Dataset.updateOne({
           _id: Types.ObjectId(id)

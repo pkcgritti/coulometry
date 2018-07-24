@@ -6,9 +6,7 @@ import config from './config';
 import messager from './middlewares/messager';
 import './db';
 import Controllers from './controllers';
-
-const router = express.Router()
-  .get('/', (_, res) => res.send('Online'));
+import * as path from 'path';
 
 const app = express()
   .use(bodyParser.json())
@@ -19,11 +17,10 @@ const app = express()
   .use(cors({
     origin: true,
   }))
-  .use(express.static('public'))
   .use(messager())
   .use('/dataset', Controllers.Dataset.buildRouter())
   .use('/material', Controllers.Material.buildRouter())
-  .use('/', router)
+  .use(express.static(path.resolve(__dirname, '../public')))
   .listen(config.express.port, function () {
     console.log('Listening on port ' + config.express.port);
   });
