@@ -1,6 +1,7 @@
 import { GET, POST, DELETE, PUT } from '../decorators/router';
 import { Controller } from './base/controller';
 import Repositories from '../repositories';
+import Services from '../services';
 import axios from 'axios';
 import { Types } from 'mongoose';
 
@@ -88,5 +89,15 @@ export class DatasetController extends Controller {
     return Repositories.Dataset.deleteOne({
       _id: Types.ObjectId(id)
     });
+  }
+
+  @POST('/:id/broadcast', req => [req.params.id, req.body.results])
+  broadcastResults (id, results) {
+    return Repositories.Dataset.findOne({
+      _id: Types.ObjectId(id)
+    }).then(dataset => {
+      if (!dataset) throw 400;
+      console.log('Sending email')
+    })
   }
 };
