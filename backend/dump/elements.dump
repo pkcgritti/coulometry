@@ -1,0 +1,5 @@
+{"_id":{"$oid":"5b53c66c9b3b651f4659ea14"},"name":"CuO","molarMass":79.54,"density":6.4,"nEletrons":2,"meanPotential":-0.825,"iteractive":true,"material":{"$oid":"5b53c6659b3b651f4659ea13"}}
+{"_id":{"$oid":"5b53c6799b3b651f4659ea15"},"name":"Cu2O","molarMass":143.1,"density":6,"nEletrons":2,"meanPotential":-0.55,"iteractive":true,"material":{"$oid":"5b53c6659b3b651f4659ea13"}}
+{"_id":{"$oid":"5b5479cd07d4d457f37cd4e6"},"name":"Cu2S","molarMass":159.1,"density":5.6,"nEletrons":2,"meanPotential":-1.05,"iteractive":true,"material":{"$oid":"5b53c6659b3b651f4659ea13"}}
+{"_id":{"$oid":"5b547a8b07d4d457f37cd4e8"},"name":"AgCl","molarMass":143.3,"density":5.56,"nEletrons":1,"meanPotential":-0.025,"iteractive":false,"material":{"$oid":"5b547a4e07d4d457f37cd4e7"}}
+{"_id":{"$oid":"5b547aa407d4d457f37cd4e9"},"name":"Ag2S","molarMass":247.8,"density":7.32,"nEletrons":2,"meanPotential":-0.8,"iteractive":false,"material":{"$oid":"5b547a4e07d4d457f37cd4e7"}}
