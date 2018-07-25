@@ -4,7 +4,7 @@ Utilities to fetch data from typescript server
 from json import loads
 from urllib.request import urlopen
 
-BASE_URL = 'http://localhost:8000/'
+BASE_URL = 'http://localhost:8091/'
 
 def get (api_url):
   """
