@@ -10,6 +10,7 @@ yarn-error.log*
 /test/e2e/reports/
 selenium-debug.log
 microservice/__pycache__/
+microservice/core/__pycache__/*
 microservice/*/__pycache__/
 
 # Editor directories and files

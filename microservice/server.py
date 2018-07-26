@@ -5,7 +5,7 @@ from core.constants import DEFAULT_EORDER, DEFAULT_EREPTS, DEFAULT_FORDER, DEFAU
 from core.operations import filter_dataset, derivate_dataset, convolute_dataset, subtract_gaussian_like, extend_dataset
 from core.estimators import estimate_best_gauss_like
 from flask import Flask, Response, request
-from json import dumps
+from json import load, dumps
 
 app = Flask(__name__)
 
@@ -40,4 +40,9 @@ def addPoint():
   return Response(dumps(data), status = status, mimetype='application/json')
 
 if __name__ == '__main__':
-  app.run('localhost', 8001, debug=True)
+  with open('../config.json') as f:
+    config = load(f)
+  mscfg = config.get('base', {}).get('microservice', {})
+  hostname = mscfg.get('hostname', 'localhost')
+  port = mscfg.get('port', 8001)
+  app.run(hostname, port, debug=True)

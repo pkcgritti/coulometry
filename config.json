@@ -1,0 +1,26 @@
+{
+  "development": {
+    "express": {
+      "hostname": "localhost",
+      "port": 8091,
+      "rest_url": "http://localhost:8091"
+    }
+  },
+  "production": {
+    "express": {
+      "hostname": "localhost",
+      "port": 8091,
+      "rest_url": "http://coulometry.appepmc.com.br"
+    }
+  },
+  "base": {
+    "mongodb": {
+      "hostname": "localhost",
+      "database": "vidya"
+    },
+    "microservice": {
+      "hostname": "localhost",
+      "port": 8092
+    }
+  }
+}

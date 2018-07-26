@@ -4,6 +4,7 @@ import Repositories from '../repositories';
 import Services from '../services';
 import axios from 'axios';
 import { Types } from 'mongoose';
+import config from '../config';
 
 export class DatasetController extends Controller {
   @GET('/')
@@ -26,7 +27,10 @@ export class DatasetController extends Controller {
   // Change to PUT
   @GET('/:id/addpoint', req => [req.params.id])
   addPoint (id) {
-    return axios.get('http://localhost:8092/add_point?id=' + id)
+    const hostname = config.microservice.hostname
+    const port = config.microservice.port
+    const uri = `http://${hostname}:${port}/add_point?id=${id}`
+    return axios.get(uri)
       .then(response => {
         return Repositories.Dataset.updateOne({
           _id: Types.ObjectId(id)

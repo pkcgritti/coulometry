@@ -1,7 +1,10 @@
 import axios from 'axios';
+import config from '../../../config.json';
+
+const baseConfig = Object.assign({}, config.base, config[process.env.NODE_ENV]);
 
 export const instance = axios.create({
-  baseURL: 'http://localhost:8091'
+  baseURL: baseConfig.express.rest_url
 });
 
 instance.interceptors.request.use(function (config) {

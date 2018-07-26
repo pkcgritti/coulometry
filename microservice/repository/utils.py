@@ -22,14 +22,14 @@ def listDatasets ():
   List datasets on the server
   """
   response = get('dataset')
-  return loads(response)['payload']
+  return loads(response.decode('utf-8'))['payload']
 
 def getDataset (dataset_id):
   """
   Get dataset by ID
   """
   response = get('dataset/%s' % dataset_id)
-  return loads(response)['payload']
+  return loads(response.decode('utf-8'))['payload']
 
 if __name__ == '__main__':
   datasets = getDataset('5b422dd0e670081e58731c0f')
