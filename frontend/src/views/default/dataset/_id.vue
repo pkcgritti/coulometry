@@ -192,8 +192,6 @@ export default {
       result.kFactor = nearstElement.molarMass * 1e3 / (nearstElement.nEletrons * F_CONSTANT * nearstElement.density);
       result.thickness = result.charge * result.kFactor / this.entity.area;
 
-      console.log('IO', result.thickness, result.mass / (result.density * this.entity.area));
-
       this.normalizeThickness(result, nearstElement);
     },
     updateData () {
