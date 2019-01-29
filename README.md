@@ -29,11 +29,24 @@ tsc
 
 Linguagem: Javascript (ECMA6) + pug(.html) + stylus(.css)
 Frameworks: Vue.js + Vuetify + webpack
-Documentação sob desenvolvimento.
+
+Para compilar o Frontend, basta navegar até a pasta do projeto, 
+instalar as dependências utilizando o npm, e montar a aplicação.
+Exemplo:
+```bash
+cd {CAMINHO_QUALQUER}/coulometry/frontend
+npm i
+npm run build
+```
 
 ## Microserviço (Detecção de pontos de inflexão)
 
 Linguagem: Python
 Frameworks: Flask
 Dependências: Numpy, Flask, Urllib
-Documentação sob desenvolvimento.
+
+Após instalação das dependências, o microserviço pode ser colocado online
+por meio da execução do arquivo **server.py** no python.
+```bash
+python server.py
+```
